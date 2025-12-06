@@ -9,7 +9,8 @@ def show_menu():
     print("1) Add Task")
     print("2) Show Tasks")
     print("3) Remove Task")
-    print("4) Exit")
+    print("4) Edit Task")
+    print("5) Exit")
 
 tasks = []
 
@@ -37,12 +38,28 @@ while True:
         clear()
         print("\nWhich task do you want to remove?")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t}")
+            print(f"{i+1}. {t['name']}")
         num = int(input("Task number: "))
-        tasks.pop(num-1)
-        print("Task removed!")
+        if 1 <= num <= len(tasks):
+            tasks.pop(num-1)
+            print("Task removed!")
+        else:
+            print("Invalid task number!")
 
     elif choice == "4":
+        clear()
+        print("\nWhich task do you want to edit?")
+        for i,t in enumerate(tasks):
+            print(f"{i+1}.{t['name']}")
+        num = int(input("Task number: "))
+        if 1 <= num <= len(tasks):
+            new_name = str(input("Enter the new name for this task: "))
+            tasks[num-1]['name'] = new_name
+            print("Task edited!")
+        else:
+            print("Invalid task number!")
+
+    elif choice == "5":
         clear()
         print("Goodbye!")
         break
