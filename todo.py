@@ -15,17 +15,19 @@ def show_menu():
 tasks = []
 
 while True:
+    wait = input("\nPress enter to continue")
+    clear()
     show_menu()
     choice = input("Choose an option: ")
 
     if choice == "1":
-        clear()
-        task_name = input("Enter new task: ")
+        task_name = input("\nEnter new task: ")
         task = {
             "name": task_name,
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
         tasks.append(task)
+        clear()
         print("Task added!")
     
     elif choice == "2":
@@ -35,7 +37,6 @@ while True:
             print(f"{i+1}. {t['name']} (last edited: {t['created_at']})")
 
     elif choice == "3":
-        clear()
         print("\nWhich task do you want to remove?")
         for i, t in enumerate(tasks):
             print(f"{i+1}. {t['name']}")
@@ -43,14 +44,16 @@ while True:
             num = int(input("Task number: "))
             if 1 <= num <= len(tasks):
                 tasks.pop(num-1)
+                clear()
                 print("Task removed!")
             else:
+                clear()
                 print("Invalid task number!")
         except ValueError:
+            clear()
             print("Invalid input! Please enter a number.")        
 
     elif choice == "4":
-        clear()
         print("\nWhich task do you want to edit?")
         for i, t in enumerate(tasks):
             print(f"{i+1}. {t['name']}")
@@ -60,17 +63,20 @@ while True:
                 new_name = input("Enter the new name for this task: ")
                 tasks[num-1]['name'] = new_name
                 tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                clear()
                 print("Task edited!")
             else:
+                clear()
                 print("Invalid task number!")
         except ValueError:
+            clear()
             print("Invalid input! Please enter a number.")
-
 
     elif choice == "5":
         clear()
-        print("Goodbye!")
+        print("\nGoodbye!")
         break
 
     else:
+        clear()
         print("Invalid choice!")
