@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def show_menu():
     print("\n--- TODO LIST ---")
     print("1) Add Task")
@@ -12,14 +14,18 @@ while True:
     choice = input("Choose an option: ")
 
     if choice == "1":
-        task = input("Enter new task: ")
+        task_name = input("Enter new task: ")
+        task = {
+            "name": task_name,
+            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
         tasks.append(task)
         print("Task added!")
-
+    
     elif choice == "2":
         print("\nYour Tasks:")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t}")
+            print(f"{i+1}. {t['name']} (added: {t['created_at']})")
 
     elif choice == "3":
         print("\nWhich task do you want to remove?")
