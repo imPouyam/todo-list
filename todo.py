@@ -1,5 +1,9 @@
 from datetime import datetime
+import os
 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
 def show_menu():
     print("\n--- TODO LIST ---")
     print("1) Add Task")
@@ -14,6 +18,7 @@ while True:
     choice = input("Choose an option: ")
 
     if choice == "1":
+        clear()
         task_name = input("Enter new task: ")
         task = {
             "name": task_name,
@@ -23,11 +28,13 @@ while True:
         print("Task added!")
     
     elif choice == "2":
+        clear()
         print("\nYour Tasks:")
         for i, t in enumerate(tasks):
             print(f"{i+1}. {t['name']} (added: {t['created_at']})")
 
     elif choice == "3":
+        clear()
         print("\nWhich task do you want to remove?")
         for i, t in enumerate(tasks):
             print(f"{i+1}. {t}")
@@ -36,6 +43,7 @@ while True:
         print("Task removed!")
 
     elif choice == "4":
+        clear()
         print("Goodbye!")
         break
 
