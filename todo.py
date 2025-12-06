@@ -32,32 +32,40 @@ while True:
         clear()
         print("\nYour Tasks:")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']} (added: {t['created_at']})")
+            print(f"{i+1}. {t['name']} (last edited: {t['created_at']})")
 
     elif choice == "3":
         clear()
         print("\nWhich task do you want to remove?")
         for i, t in enumerate(tasks):
             print(f"{i+1}. {t['name']}")
-        num = int(input("Task number: "))
-        if 1 <= num <= len(tasks):
-            tasks.pop(num-1)
-            print("Task removed!")
-        else:
-            print("Invalid task number!")
+        try:
+            num = int(input("Task number: "))
+            if 1 <= num <= len(tasks):
+                tasks.pop(num-1)
+                print("Task removed!")
+            else:
+                print("Invalid task number!")
+        except ValueError:
+            print("Invalid input! Please enter a number.")        
 
     elif choice == "4":
         clear()
         print("\nWhich task do you want to edit?")
-        for i,t in enumerate(tasks):
-            print(f"{i+1}.{t['name']}")
-        num = int(input("Task number: "))
-        if 1 <= num <= len(tasks):
-            new_name = str(input("Enter the new name for this task: "))
-            tasks[num-1]['name'] = new_name
-            print("Task edited!")
-        else:
-            print("Invalid task number!")
+        for i, t in enumerate(tasks):
+            print(f"{i+1}. {t['name']}")
+        try:
+            num = int(input("Task number: "))
+            if 1 <= num <= len(tasks):
+                new_name = input("Enter the new name for this task: ")
+                tasks[num-1]['name'] = new_name
+                tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print("Task edited!")
+            else:
+                print("Invalid task number!")
+        except ValueError:
+            print("Invalid input! Please enter a number.")
+
 
     elif choice == "5":
         clear()
