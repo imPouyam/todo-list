@@ -1,9 +1,20 @@
 from datetime import datetime
 import os
+import json
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
+def load_file():
+    if os.path.exists("tasks.json"):
+        with open("tasks.json" , "r")as file:
+            return json.load(file)    
+    return []    
+
+def save_file():
+    with open("tasks.json", "w")as file:
+        json.dump(tasks, file, indent=4)
+            
 def show_menu():
     print("\n--- TODO LIST ---")
     print("1) Add Task")
@@ -12,7 +23,7 @@ def show_menu():
     print("4) Edit Task")
     print("5) Exit")
 
-tasks = []
+tasks = load_file()
 
 while True:
     wait = input("\nPress enter to continue")
@@ -27,6 +38,7 @@ while True:
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
         tasks.append(task)
+        save_file()
         clear()
         print("Task added!")
     
@@ -44,6 +56,7 @@ while True:
             num = int(input("Task number: "))
             if 1 <= num <= len(tasks):
                 tasks.pop(num-1)
+                save_file()
                 clear()
                 print("Task removed!")
             else:
@@ -63,6 +76,7 @@ while True:
                 new_name = input("Enter the new name for this task: ")
                 tasks[num-1]['name'] = new_name
                 tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                save_file()
                 clear()
                 print("Task edited!")
             else:
