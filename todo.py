@@ -35,7 +35,8 @@ while True:
         task_name = input("\nEnter new task: ")
         task = {
             "name": task_name,
-            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "status": "Not completed"
         }
         tasks.append(task)
         save_file()
@@ -46,7 +47,7 @@ while True:
         clear()
         print("\nYour Tasks:")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']} (last edited: {t['created_at']})")
+            print(f"{i+1}. {t['name']} - {t['status']} - (last edited: {t['created_at']})")
 
     elif choice == "3":
         print("\nWhich task do you want to remove?")
@@ -69,13 +70,17 @@ while True:
     elif choice == "4":
         print("\nWhich task do you want to edit?")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']}")
+            print(f"{i+1}. {t['name']} - {t['status']}")
         try:
             num = int(input("Task number: "))
             if 1 <= num <= len(tasks):
-                new_name = input("Enter the new name for this task: ")
-                tasks[num-1]['name'] = new_name
-                tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                if (input("Do you wish to change task name? (Y/N)")).lower() == 'y':
+                    new_name = input("Enter the new name for this task: ")
+                    tasks[num-1]['name'] = new_name
+                    tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                if (input("Do you wish to change status? (Y/N)")).lower() == 'y':
+                    tasks[num-1]['status'] = 'Completed'
+                    tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                    
                 save_file()
                 clear()
                 print("Task edited!")
