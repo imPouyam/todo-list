@@ -14,7 +14,15 @@ def load_file():
 def save_file():
     with open("tasks.json", "w")as file:
         json.dump(tasks, file, indent=4)
-            
+
+def priority_text(p):
+    if p == 1:
+        return "High"
+    elif p == 2:
+        return "Medium"
+    else:
+        return "Low"
+
 def show_menu():
     print("\n--- TODO LIST ---")
     print("1) Add Task")
@@ -35,10 +43,14 @@ while True:
     if choice == "1":
         task_name = input("\nEnter new task: ")
         task_description = input("\nEnter a description for your task: ")
+        priority = input("\nEnter priority (1=High, 2=Medium, 3=Low): ")
+        if priority not in ["1", "2", "3"]:
+            priority = "3"
         task = {
             "name": task_name,
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "description": task_description,
+            "priority": int(priority),
             "status": "Not completed"
         }
         tasks.append(task)
@@ -49,8 +61,9 @@ while True:
     elif choice == "2":
         clear()
         print("\nYour Tasks:")
-        for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']} - {t['status']}\n   Description: {t['description']} \n   last edited: {t['created_at']}\n")
+        sorted_tasks = sorted(tasks, key=lambda x: (x["status"] == "Completed", x["priority"]))
+        for i, t in enumerate(sorted_tasks):
+            print(f"{i+1}. {t['name']} - {t['status']}\n   priority: {priority_text(t['priority'])}\n   Description: {t['description']} \n   last edited: {t['created_at']}\n")
 
     elif choice == "3":
         print("\nWhich task do you want to remove?")
@@ -85,6 +98,12 @@ while True:
                     new_name = input("Enter the new name for this task: ")
                     tasks[num-1]['name'] = new_name
                     tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                if (tasks[num-1]['status'] != 'Completed'):
+                    if (input("Do you wish to change the priority? (Y/N)")).lower() == 'y':
+                        new_priority = input("Enter new priority (1=High, 2=Medium, 3=Low): ")
+                        if new_priority in ["1", "2", "3"]:
+                            tasks[num-1]['priority'] = int(new_priority)
+                            tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 if (input("Do you wish to change the description? (Y/N)")).lower() == 'y':
                     new_description = input("Enter the new description for this task: ")
                     tasks[num-1]['description'] = new_description
