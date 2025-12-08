@@ -33,9 +33,11 @@ while True:
 
     if choice == "1":
         task_name = input("\nEnter new task: ")
+        task_description = input("\nEnter a description for your task: ")
         task = {
             "name": task_name,
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "description": task_description,
             "status": "Not completed"
         }
         tasks.append(task)
@@ -47,7 +49,7 @@ while True:
         clear()
         print("\nYour Tasks:")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']} - {t['status']} - (last edited: {t['created_at']})")
+            print(f"{i+1}. {t['name']} - {t['status']}\n   Description: {t['description']} \n   last edited: {t['created_at']}\n")
 
     elif choice == "3":
         print("\nWhich task do you want to remove?")
@@ -70,17 +72,22 @@ while True:
     elif choice == "4":
         print("\nWhich task do you want to edit?")
         for i, t in enumerate(tasks):
-            print(f"{i+1}. {t['name']} - {t['status']}")
+            print(f"{i+1}. {t['name']} - {t['status']}\n   Description: {t['description']}\n")
         try:
             num = int(input("Task number: "))
             if 1 <= num <= len(tasks):
+                if (tasks[num-1]['status'] != 'Completed'):
+                    if (input("Do you wish to change status? (Y/N)")).lower() == 'y':
+                        tasks[num-1]['status'] = 'Completed'
+                        tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 if (input("Do you wish to change task name? (Y/N)")).lower() == 'y':
                     new_name = input("Enter the new name for this task: ")
                     tasks[num-1]['name'] = new_name
                     tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                if (input("Do you wish to change status? (Y/N)")).lower() == 'y':
-                    tasks[num-1]['status'] = 'Completed'
-                    tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                    
+                if (input("Do you wish to change the description? (Y/N)")).lower() == 'y':
+                    new_description = input("Enter the new description for this task: ")
+                    tasks[num-1]['description'] = new_description
+                    tasks[num-1]['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                    
                 save_file()
                 clear()
                 print("Task edited!")
