@@ -21,7 +21,8 @@ def show_menu():
     print("2) Show Tasks")
     print("3) Remove Task")
     print("4) Edit Task")
-    print("5) Exit")
+    print("5) Search for Task")
+    print("6) Exit")
 
 tasks = load_file()
 
@@ -97,8 +98,22 @@ while True:
         except ValueError:
             clear()
             print("Invalid input! Please enter a number.")
-
+            
     elif choice == "5":
+        KeyWord = input("Enter keyword to search: ").lower()
+        result = [] 
+        for i, t in enumerate(tasks):
+            if KeyWord in t['name'].lower() or KeyWord in t['description'].lower():
+                result.append((i,t))
+        clear()
+        if result:
+            print("\n Search Results: ")
+            for i, t in result:
+                print(f"{i+1}. {t['name']} - {t['status']}\n   Description: {t['description']} \n   last edited: {t['created_at']}\n")
+        else:
+            print("\nNo tasks found with that keyword!")
+   
+    elif choice == "6":
         clear()
         print("\nGoodbye!")
         break
